@@ -11,7 +11,7 @@ let todo = [
             {  task:'go to hr'},
     ]},
 
-    
+
     {fitness:[{
         task:'go to gym',
 
@@ -36,6 +36,7 @@ app.use(cors());
     todo[0].work.forEach(work => {
     let data =work.task;
     console.log(data);  
+     console.log(data);  
     tasks.push(data);
     });
     res.json(tasks);
