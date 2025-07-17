@@ -2,49 +2,72 @@ const express = require( 'express');
 const app = express();
 const cors = require("cors");
 
-let id = 0;
+
+   app.use(express.json());
+   app.use(cors());
+let idIncrement=0;  
+
 let todo = [
-    { work:[
-            {task:'go to office'},
-            {task:'go to clg'},
-            { task:'go to boss'},
-            {  task:'go to hr'},
+
+    {work:[
+        {id:1,
+        task:'go to office'},
     ]},
 
 
-    {fitness:[{
-        task:'go to gym',
+    {fitness:[
+        {id:1,
+        task:'go to bank'},
+     
+    ]},
 
-    }]},
-
-    { personal:[{
-        task:'meet friends saturday night',
-      
-    }]},
+    {personal:[
+        {id:1,
+        task:'meet friends saturday night',}
+    ]},
     
-    {finance:[{
-         task:'paying house rent ',
-        }]
-    }
+    {finance:[
+        {id:1,
+        task:'paying house rent'},
+  
+    ]}
 ]
 
 
-app.use(cors());
-//add to do
+
+
+    //add to do
+
+
     app.get('/data', (req, res) => {
-    const tasks=[]
-    todo[0].work.forEach(work => {
-    let data =work.task;
-    console.log(data);  
-     console.log(data);  
-    tasks.push(data);
-    });
-    res.json(tasks);
-    console.log('tasks are',tasks)
+  console.log("GET /data route hit");
+  res.json(todo);
+});
+
+
+    app.post('/adds', (req, res) => {
+        const id=idIncrement;
+        const task=req.body.task;
+        todo[3].finance.push({id,task});
+        idIncrement++;
+        res.json({ message: 'Task added', updatedFinance: todo[3].finance });
     });
 
-app.listen(3001, ( ) => { 
-    console.log("Server running at http://localhost:3000")
+
+
+    app.delete('/delete/:Id',(req, res) => {
+        const ids = parseInt(req.params.Id);
+        const index= todo[3].finance.findIndex((Ak) => Ak.id == ids);
+        
+        if (index !== -1) {
+        todo[3].finance.splice(index, 1);
+        res.json({ message: 'Deleted successfully', updatedFinance: todo[3].finance });
+    } else {
+        res.status(404).json({ message: 'Task not found' });
+    }
+    });
+    
+app.listen(3005, ( ) => { 
+    console.log("Server running at http://localhost:3005")
 }
 )
-
